@@ -1,0 +1,43 @@
+{% extends "base/base.html" %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-offset-4 col-md-4">
+            <fieldset>
+                <legend>Register</legend>
+                <form action="" method="post" name="register">
+                    {{ form.hidden_tag() }}
+                    <div class="form-group {% if form.email.errors|length %}has-error{% endif %}">
+                        {{ form.email.label(class="control-label") }}
+                        {{ form.email(size=32, class="form-control") }}
+                        {%  for error in form.email.errors %}
+                            <span class="help-block">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    <div class="form-group {% if form.passwordConfirm.errors|length %}has-error{% endif %}">
+                        {{ form.password.label(class="control-label") }}
+                        {{ form.password(size=32, class="form-control") }}
+                    </div>
+                    <div class="form-group {% if form.passwordConfirm.errors|length %}has-error{% endif %}">
+                        {{ form.passwordConfirm.label(class="control-label") }}
+                        {{ form.passwordConfirm(size=32, class="form-control") }}
+                        {%  for error in form.passwordConfirm.errors %}
+                            <span class="help-block">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    <div class="form-group {% if form.name.errors|length %}has-error{% endif %}">
+                        {{ form.name.label(class="control-label") }}
+                        {{ form.name(size=32, class="form-control") }}
+                        {%  for error in form.name.errors %}
+                            <span class="help-block">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    <div class="form-group">
+                        {{ form.surname.label(class="control-label") }}
+                        {{ form.surname(size=32, class="form-control") }}
+                    </div>
+                    <button class="btn btn-success" type="submit">Register</button>
+                </form>
+            </fieldset>
+        </div>
+    </div>
+{% endblock %}
