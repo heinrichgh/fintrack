@@ -1,5 +1,6 @@
 __author__ = 'heinrich'
 from app import db
+from werkzeug.security import generate_password_hash, check_password_hash
 
 
 class User(db.Model):
@@ -13,6 +14,18 @@ class User(db.Model):
     expenditures = db.relationship('Expenditure', backref='user', lazy='dynamic')
     expenditureTypes = db.relationship('ExpenditureType', backref='user', lazy='dynamic')
 
+    def __init__(self, email, password, name, surname):
+        self.sEmail = email
+        self.set_password(password)
+        self.sName = name
+        self.sSurname = surname
+
+    def set_password(self, password):
+        self.sPassword = generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.sPassword, password)
+
     def is_authenticated(self):
         return True
 
@@ -21,6 +34,9 @@ class User(db.Model):
 
     def is_anonymous(self):
         return False
+
+    def get_id(self):
+        return str(self.ipkUserID)
 
     def __repr__(self):
         return '<User %r>' % self.sEmail
@@ -31,7 +47,7 @@ class Income(db.Model):
     ifkUserID = db.Column(db.Integer, db.ForeignKey('user.ipkUserID'))
     ifkIncomeType = db.Column(db.Integer, db.ForeignKey('income_type.ipkIncomeType'))
     fAmount = db.Column(db.Float)
-    incomeType = db.relationship('IncomeType', backref='income', lazy='dynamic')
+    incomeType = db.relationship('IncomeType', backref='income')
 
 
 class IncomeType(db.Model):
@@ -45,7 +61,7 @@ class Expenditure(db.Model):
     ifkUserID = db.Column(db.Integer, db.ForeignKey('user.ipkUserID'))
     ifkExpenditureType = db.Column(db.Integer, db.ForeignKey('expenditure_type.ipkExpenditureType'))
     fAmount = db.Column(db.Float)
-    expenditureType = db.relationship('ExpenditureType', backref='expenditure', lazy='dynamic')
+    expenditureType = db.relationship('ExpenditureType', backref='expenditure')
 
 
 class ExpenditureType(db.Model):

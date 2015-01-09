@@ -1,0 +1,28 @@
+{% extends "base/base.html" %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-offset-4 col-md-4">
+            <fieldset>
+                <legend>Login</legend>
+                <form action="" method="post" name="register">
+                    {{ form.hidden_tag() }}
+                    <div class="form-group {% if form.email.errors|length %}has-error{% elif form.is_submitted() %}has-success{% endif %}">
+                        {{ form.email.label(class="control-label") }}
+                        {{ form.email(size=32, class="form-control") }}
+                        {%  for error in form.email.errors %}
+                            <span class="help-block">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    <div class="form-group {% if form.password.errors|length %}has-error{% elif form.is_submitted() %}has-success{% endif %}">
+                        {{ form.password.label(class="control-label") }}
+                        {{ form.password(size=32, class="form-control") }}
+                        {%  for error in form.password.errors %}
+                            <span class="help-block">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    <button class="btn btn-success" type="submit">Login</button>
+                </form>
+            </fieldset>
+        </div>
+    </div>
+{% endblock %}
