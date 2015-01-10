@@ -1,0 +1,42 @@
+{% extends "base/base.html" %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-offset-4 col-md-4">
+            <fieldset>
+                <legend>Register</legend>
+                <form action="" method="post" name="specify-income">
+                    {{ form.hidden_tag() }}
+                    <div class="form-group {% if form.amount.errors|length %}has-error{% elif form.is_submitted() %}has-success{% endif %}">
+                        {{ form.amount.label(class="control-label") }}
+                        {{ form.amount(size=32, class="form-control") }}
+                        {%  for error in form.amount.errors %}
+                            <span class="help-block">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    <div class="form-group {% if form.date.errors|length %}has-error{% elif form.is_submitted() %}has-success{% endif %}">
+                        {{ form.date.label(class="control-label") }}
+                        {{ form.date(size=32, class="form-control") }}
+                        {%  for error in form.date.errors %}
+                            <span class="help-block">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    <div class="form-group {% if form.incomeType.errors|length %}has-error{% elif form.is_submitted() %}has-success{% endif %}">
+                        {{ form.incomeType.label(class="control-label") }}
+                        {{ form.incomeType(class="form-control") }}
+                        {%  for error in form.incomeType.errors %}
+                            <span class="help-block">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    <div class="form-group {% if form.newIncomeType.errors|length %}has-error{% elif form.is_submitted() %}has-success{% endif %}">
+                        {{ form.newIncomeType.label(class="control-label") }}
+                        {{ form.newIncomeType(size=32, class="form-control") }}
+                        {%  for error in form.newIncomeType.errors %}
+                            <span class="help-block">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    <button class="btn btn-success" type="submit">Add</button>
+                </form>
+            </fieldset>
+        </div>
+    </div>
+{% endblock %}

@@ -47,6 +47,7 @@ class Income(db.Model):
     ifkUserID = db.Column(db.Integer, db.ForeignKey('user.ipkUserID'))
     ifkIncomeType = db.Column(db.Integer, db.ForeignKey('income_type.ipkIncomeType'))
     fAmount = db.Column(db.Float)
+    dDate = db.Column(db.DateTime)
     incomeType = db.relationship('IncomeType', backref='income')
 
 
@@ -61,6 +62,7 @@ class Expenditure(db.Model):
     ifkUserID = db.Column(db.Integer, db.ForeignKey('user.ipkUserID'))
     ifkExpenditureType = db.Column(db.Integer, db.ForeignKey('expenditure_type.ipkExpenditureType'))
     fAmount = db.Column(db.Float)
+    dDate = db.Column(db.DateTime)
     expenditureType = db.relationship('ExpenditureType', backref='expenditure')
 
 
