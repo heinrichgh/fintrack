@@ -2,6 +2,7 @@ __author__ = 'heinrich'
 from flask.ext.wtf import Form
 from wtforms import StringField, PasswordField, FloatField, DateField, SelectField
 from wtforms.validators import DataRequired, EqualTo, Email
+import datetime
 
 
 class RegisterForm(Form):
@@ -19,6 +20,9 @@ class LoginForm(Form):
 
 class IncomeForm(Form):
     amount = FloatField('Amount', validators=[DataRequired()])
-    date = DateField('Date', validators=[DataRequired()])
-    incomeType = SelectField('Income Type', validators=[DataRequired()])
-    newIncomeType = StringField('Income Type')
+    date = DateField('Date', validators=[DataRequired()], default=datetime.date.today())
+    incomeType = SelectField('Income Type', validators=[DataRequired()], coerce=int)
+
+
+class IncomeTypeForm(Form):
+    type = StringField('Income Type', validators=[DataRequired()])

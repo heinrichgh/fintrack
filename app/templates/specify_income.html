@@ -1,21 +1,51 @@
 {% extends "base/base.html" %}
+{% block css %}
+    {{ super() }}
+    <link href="/static/datepicker/css/datepicker.css" rel="stylesheet">
+{% endblock %}
 {% block content %}
     <div class="row">
-        <div class="col-md-offset-4 col-md-4">
+        <div class="col-md-4">
+            <table class="table table-bordered table-condensed">
+                <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Date</th>
+                        <th>Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for income in incomes %}
+                    <tr>
+                        <td>{{ income.incomeType.sType }}</td>
+                        <td>{{ income.dDate.strftime('%Y-%m-%d') }}</td>
+                        <td>{{ income.fAmount }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-4">
             <fieldset>
-                <legend>Register</legend>
+                <legend>Specify Income</legend>
                 <form action="" method="post" name="specify-income">
                     {{ form.hidden_tag() }}
                     <div class="form-group {% if form.amount.errors|length %}has-error{% elif form.is_submitted() %}has-success{% endif %}">
                         {{ form.amount.label(class="control-label") }}
+                        <div class="input-group">
+                            <span class="input-group-addon">R</span>
                         {{ form.amount(size=32, class="form-control") }}
+                        </div>
                         {%  for error in form.amount.errors %}
                             <span class="help-block">{{ error }}</span>
                         {% endfor %}
                     </div>
                     <div class="form-group {% if form.date.errors|length %}has-error{% elif form.is_submitted() %}has-success{% endif %}">
                         {{ form.date.label(class="control-label") }}
-                        {{ form.date(size=32, class="form-control") }}
+                        <div class="input-group">
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                        {{ form.date(size=32, class="form-control datepicker clickable", readonly="readonly") }}
+                        </div>
                         {%  for error in form.date.errors %}
                             <span class="help-block">{{ error }}</span>
                         {% endfor %}
@@ -27,16 +57,23 @@
                             <span class="help-block">{{ error }}</span>
                         {% endfor %}
                     </div>
-                    <div class="form-group {% if form.newIncomeType.errors|length %}has-error{% elif form.is_submitted() %}has-success{% endif %}">
-                        {{ form.newIncomeType.label(class="control-label") }}
-                        {{ form.newIncomeType(size=32, class="form-control") }}
-                        {%  for error in form.newIncomeType.errors %}
-                            <span class="help-block">{{ error }}</span>
-                        {% endfor %}
-                    </div>
                     <button class="btn btn-success" type="submit">Add</button>
                 </form>
             </fieldset>
         </div>
     </div>
+{% endblock %}
+{% block js %}
+    {{ super() }}
+    <script src="/static/datepicker/js/bootstrap-datepicker.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('.datepicker').datepicker({
+                format: 'yyyy-mm-dd'
+            }).on('changeDate', function() {
+                $(this).datepicker('hide');
+            });
+
+        });
+    </script>
 {% endblock %}

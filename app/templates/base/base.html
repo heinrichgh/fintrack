@@ -13,6 +13,7 @@
 
     {% block base_css %}
     <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/style.css" rel="stylesheet">
     {% endblock %}
 
     {% block css %}{% endblock %}
@@ -34,7 +35,9 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="{{ url_for('index') }}">Home<span class="sr-only">home</span></a></li>
+                <li><a href="{{ url_for('index') }}">Home<span class="sr-only">home</span></a></li>
+                <li><a href="{{ url_for('specify_income') }}">Specify Income<span class="sr-only">Specify Income</span></a></li>
+                <li><a href="{{ url_for('income_types') }}">Income Types<span class="sr-only">Income Types</span></a></li>
             </ul>
             {% if g.user.is_authenticated() %}
                 <p class="navbar-text">Hi, {{ g.user.sName }}</p>
@@ -43,8 +46,8 @@
                 </ul>
             {% else %}
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="/register">Register</a></li>
-                    <li><a href="/login">Login</a></li>
+                    <li><a href="{{ url_for('register') }}">Register</a></li>
+                    <li><a href="{{ url_for('login') }}">Login</a></li>
                 </ul>
             {% endif %}
         </div><!-- /.navbar-collapse -->
@@ -54,7 +57,7 @@
     {% block content %}{% endblock %}
 </div>
     {% block base_js %}
-    <script src="/static/bootstrap/js/jquery-2.1.1.min.js"></script>
+    <script src="/static/jquery-2.1.1.min.js"></script>
     <script src="/static/bootstrap/js/bootstrap.min.js"></script>
     {% endblock %}
 

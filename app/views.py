@@ -2,8 +2,8 @@ __author__ = 'heinrich'
 from flask import render_template, flash, g, redirect, url_for
 from app import app, db, lm
 from flask.ext.login import login_user, logout_user, current_user, login_required
-from .forms import RegisterForm, LoginForm, IncomeForm
-from .models import User
+from .forms import RegisterForm, LoginForm, IncomeForm, IncomeTypeForm
+from .models import User, IncomeType, Income
 
 
 @app.route('/')
@@ -44,8 +44,26 @@ def specify_income():
     form = IncomeForm()
     form.incomeType.choices = [(it.ipkIncomeType, it.sType) for it in g.user.incomeTypes.all()]
     if form.validate_on_submit():
-        None
-    return render_template('specify_income.html', title='Specify Income', form=form)
+        i = Income(ifkUserID=g.user.ipkUserID, ifkIncomeType=form.incomeType.data, fAmount=form.amount.data, dDate=form.date.data)
+        db.session.add(i)
+        db.session.commit()
+        return redirect(url_for('specify_income'))
+    return render_template('specify_income.html', title='Specify Income', form=form, incomes=g.user.incomes.all())
+
+
+@app.route('/income-types', methods=['GET', 'POST'])
+@login_required
+def income_types():
+    form = IncomeTypeForm()
+    if form.validate_on_submit():
+        if g.user.incomeTypes.filter_by(sType=form.type.data).first() is not None:
+            form.type.errors.append('Type already exists')
+        else:
+            it = IncomeType(ifkUserID=g.user.ipkUserID, sType=form.type.data)
+            db.session.add(it)
+            db.session.commit()
+            return redirect(url_for('income_types'))
+    return render_template('income_types.html', title='Specify Income', form=form, types=g.user.incomeTypes.all())
 
 
 @app.route('/logout')
