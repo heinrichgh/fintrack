@@ -2,8 +2,8 @@ __author__ = 'heinrich'
 from flask import render_template, flash, g, redirect, url_for
 from app import app, db, lm
 from flask.ext.login import login_user, logout_user, current_user, login_required
-from .forms import RegisterForm, LoginForm, IncomeForm, IncomeTypeForm
-from .models import User, IncomeType, Income
+from .forms import RegisterForm, LoginForm, IncomeForm, IncomeTypeForm, ExpenditureForm, ExpenditureTypeForm
+from .models import User, IncomeType, Income, Expenditure, ExpenditureType
 
 
 @app.route('/')
@@ -64,6 +64,34 @@ def income_types():
             db.session.commit()
             return redirect(url_for('income_types'))
     return render_template('income_types.html', title='Specify Income', form=form, types=g.user.incomeTypes.all())
+
+
+@app.route('/specify-expense', methods=['GET', 'POST'])
+@login_required
+def specify_expenditure():
+    form = ExpenditureForm()
+    form.expenditureType.choices = [(et.ipkExpenditureType, et.sType) for et in g.user.expenditureTypes.all()]
+    if form.validate_on_submit():
+        e = Expenditure(ifkUserID=g.user.ipkUserID, ifkExpenditureType=form.expenditureType.data, fAmount=form.amount.data, dDate=form.date.data)
+        db.session.add(e)
+        db.session.commit()
+        return redirect(url_for('specify_expenditure'))
+    return render_template('specify_expenditure.html', title='Specify Expense', form=form, expenditures=g.user.expenditures.all())
+
+
+@app.route('/expense-types', methods=['GET', 'POST'])
+@login_required
+def expenditure_types():
+    form = ExpenditureTypeForm()
+    if form.validate_on_submit():
+        if g.user.expenditureTypes.filter_by(sType=form.type.data).first() is not None:
+            form.type.errors.append('Type already exists')
+        else:
+            et = ExpenditureType(ifkUserID=g.user.ipkUserID, sType=form.type.data)
+            db.session.add(et)
+            db.session.commit()
+            return redirect(url_for('expenditure_types'))
+    return render_template('expenditure_types.html', title='Specify Expense', form=form, types=g.user.expenditureTypes.all())
 
 
 @app.route('/logout')

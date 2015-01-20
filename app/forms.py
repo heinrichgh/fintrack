@@ -26,3 +26,13 @@ class IncomeForm(Form):
 
 class IncomeTypeForm(Form):
     type = StringField('Income Type', validators=[DataRequired()])
+
+
+class ExpenditureForm(Form):
+    amount = FloatField('Amount', validators=[DataRequired()])
+    date = DateField('Date', validators=[DataRequired()], default=datetime.date.today())
+    expenditureType = SelectField('Expenditure Type', validators=[DataRequired()], coerce=int)
+
+
+class ExpenditureTypeForm(Form):
+    type = StringField('Expenditure Type', validators=[DataRequired()])
