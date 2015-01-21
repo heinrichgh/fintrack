@@ -1,41 +1,38 @@
-{% extends "base/base.html" %}
+{% extends "base/base_logged_in.html" %}
 {% block content %}
     <div class="row">
         <div class="col-md-offset-4 col-md-4">
-            <fieldset>
-                <legend>Add Expense Types</legend>
-                <form action="" method="post" name="specify-income">
-                    {{ form.hidden_tag() }}
-                    <div class="form-group {% if form.type.errors|length %}has-error{% elif form.is_submitted() %}has-success{% endif %}">
-                        {{ form.type.label(class="control-label") }}
-                        <div class="input-group">
-                            {{ form.type(size=32, class="form-control") }}
-                            <span class="input-group-btn">
-                                <button class="btn btn-success" type="submit"><span class="glyphicon glyphicon-plus"></span> Add</button>
-                            </span>
-                        </div>
-                        {%  for error in form.type.errors %}
-                            <span class="help-block">{{ error }}</span>
-                        {% endfor %}
+            <form action="" method="post" name="specify-income">
+                {{ form.hidden_tag() }}
+                <div class="form-group {% if form.type.errors|length %}has-error{% elif form.is_submitted() %}has-success{% endif %}">
+                    {{ form.type.label(class="control-label") }}
+                    <div class="input-group">
+                        {{ form.type(size=32, class="form-control") }}
+                        <span class="input-group-btn">
+                            <button class="btn btn-success" type="submit"><span class="glyphicon glyphicon-plus"></span> Add</button>
+                        </span>
                     </div>
-                </form>
-                <table class="table table-bordered table-condensed">
-                    <thead>
+                    {%  for error in form.type.errors %}
+                        <span class="help-block">{{ error }}</span>
+                    {% endfor %}
+                </div>
+            </form>
+            <table class="table table-bordered table-condensed">
+                <thead>
+                    <tr>
+                        <th>Existing Expense Types</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for type in types %}
                         <tr>
-                            <th>Existing Expense Types</th>
+                            <td>
+                                {{ type.sType }}
+                            </td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        {% for type in types %}
-                            <tr>
-                                <td>
-                                    {{ type.sType }}
-                                </td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </fieldset>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
 {% endblock %}

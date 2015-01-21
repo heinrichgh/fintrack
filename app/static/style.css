@@ -1,3 +1,37 @@
 .clickable {
     cursor: pointer !important;
 }
+
+
+
+.side-nav {
+    list-style: outside none none;
+}
+
+.side-nav > li {
+    display: block;
+}
+
+.side-nav > li > a {
+    text-decoration: none;
+    display: block;
+    padding: 4px 0px 4px 20px;
+    color: #999999;
+}
+
+.side-nav > li.active > a {
+    border-left: #007300 solid 2px;
+    padding: 4px 0px 4px 18px;
+}
+
+.side-nav > li.active > a:hover {
+    border-left: #007300 solid 2px;
+    padding: 4px 0px 4px 18px;
+}
+
+.side-nav > li > a:hover {
+    text-decoration: none;
+    color: #999999;
+    border-left: #007300 solid 1px;
+    padding: 4px 0px 4px 19px;
+}

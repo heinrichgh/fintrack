@@ -9,7 +9,16 @@ from .models import User, IncomeType, Income, Expenditure, ExpenditureType
 @app.route('/')
 @app.route('/index')
 def index():
-    return render_template('index.html', title='Home')
+    if g.user.is_authenticated():
+        return redirect(url_for('dashboard'))
+    else:
+        return render_template('index.html', title='Home')
+
+
+@app.route('/dashboard')
+@login_required
+def dashboard():
+    return render_template('dashboard.html', title='Dashboard')
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -27,7 +36,7 @@ def login():
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if g.user.is_authenticated():
-        redirect(url_for('index'))
+        return redirect(url_for('index'))
     form = RegisterForm()
     if form.validate_on_submit():
         g.user = User(form.email.data, form.password.data, form.name.data, form.surname.data)

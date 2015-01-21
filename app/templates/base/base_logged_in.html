@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    {% if title %}
+    <title>Fintrack - {{ title }}</title>
+    {% else %}
+    <title>Welcome to Fintrack</title>
+    {% endif %}
+
+    {% block base_css %}
+    <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/style.css" rel="stylesheet">
+    {% endblock %}
+
+    {% block css %}{% endblock %}
+</head>
+<body>
+<nav class="navbar navbar-default" role="navigation">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">fintrack</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            {% if g.user.is_authenticated() %}
+                <p class="navbar-text">{{ g.user.sName }}</p>
+                <ul class="nav navbar-nav">
+                    <li {% if request.path == url_for('dashboard') %}class="active"{% endif %}><a href="/dashboard">Dashboard</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/logout">Logout</a></li>
+                </ul>
+            {% endif %}
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+<div class="container-fluid">
+<div class="row">
+    <div class="col-sm-8 col-md-9 col-lg-10">
+        {% block content %}{% endblock %}
+    </div>
+    <div class="col-sm-4 col-md-3 col-lg-2">
+        <ul class="side-nav">
+            <li {% if request.path == url_for('specify_income') %}class="active"{% endif %} ><a href="{{ url_for('specify_income') }}">Specify Income<span class="sr-only">Specify Income</span></a></li>
+            <li {% if request.path == url_for('income_types') %}class="active"{% endif %} ><a href="{{ url_for('income_types') }}">Income Types<span class="sr-only">Income Types</span></a></li>
+            <li {% if request.path == url_for('specify_expenditure') %}class="active"{% endif %} ><a href="{{ url_for('specify_expenditure') }}">Specify Expense<span class="sr-only">Specify Expense</span></a></li>
+            <li {% if request.path == url_for('expenditure_types') %}class="active"{% endif %} ><a href="{{ url_for('expenditure_types') }}">Expense Types<span class="sr-only">Expense Types</span></a></li>
+        </ul>
+    </div>
+</div>
+</div>
+    {% block base_js %}
+    <script src="/static/jquery-2.1.1.min.js"></script>
+    <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+    {% endblock %}
+
+    {% block js %}{% endblock %}
+</body>
+</html>
