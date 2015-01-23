@@ -36,10 +36,6 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li><a href="{{ url_for('index') }}">Home<span class="sr-only">home</span></a></li>
-                <li><a href="{{ url_for('specify_income') }}">Specify Income<span class="sr-only">Specify Income</span></a></li>
-                <li><a href="{{ url_for('income_types') }}">Income Types<span class="sr-only">Income Types</span></a></li>
-                <li><a href="{{ url_for('specify_expenditure') }}">Specify Expense<span class="sr-only">Specify Expense</span></a></li>
-                <li><a href="{{ url_for('expenditure_types') }}">Expense Types<span class="sr-only">Expense Types</span></a></li>
             </ul>
             {% if g.user.is_authenticated() %}
                 <p class="navbar-text">Hi, {{ g.user.sName }}</p>
